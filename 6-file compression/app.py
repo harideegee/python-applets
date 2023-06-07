@@ -1,6 +1,8 @@
 import PySimpleGUI as gui
 import zipcreator
 
+gui.theme("Black")
+
 label1 = gui.Text("Select the files to compress:")
 input1 = gui.Input()
 button1 = gui.FilesBrowse("Choose", key="files")
@@ -20,9 +22,11 @@ window = gui.Window("File Compression Tool",
 
 while True:
     action, value = window.read()
-    filepaths = value["files"].split(";")
-    folder = value["folder"]
-    zipcreator.Zip(filepaths, folder)
-    window["message"].update(value="Compression was successful!")
-
+    if action == gui.WIN_CLOSED:
+        break
+    else:
+        filepaths = value["files"].split(";")
+        folder = value["folder"]
+        zipcreator.Zip(filepaths, folder)
+        window["message"].update(value="Compression was successful!")
 window.close()
